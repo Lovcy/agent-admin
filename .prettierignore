@@ -1,0 +1,11 @@
+node_modules
+dist
+pnpm-lock.yaml
+src/api/generated
+templates/admin/src/api/generated
+artifacts
+.tmp
+playwright-report
+test-results
+templates/admin/public/mockServiceWorker.js
+.admin-kit/runs

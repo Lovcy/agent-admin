@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "agents": ["codex", "claude", "cursor", "trae"],
+  "api": {
+    "mode": "local",
+    "localContract": "contracts/local.openapi.json",
+    "yapiContract": "contracts/yapi.openapi.json"
+  },
+  "lark": { "executable": "lark-cli" }
+}

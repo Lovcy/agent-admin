@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+.admin-kit/runs/
+.admin-kit/incoming/
+playwright-report/
+test-results/
+coverage/
+*.log
