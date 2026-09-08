@@ -1,2 +1,3 @@
 packages:
   - templates/admin
+  - packages/cli

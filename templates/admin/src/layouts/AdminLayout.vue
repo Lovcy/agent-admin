@@ -38,7 +38,7 @@ function close(path: string) {
     <button v-if="menuOpen" class="nav-backdrop" aria-label="关闭导航" @click="menuOpen = false" />
     <aside class="sidebar" :class="{ open: menuOpen }">
       <router-link class="brand" to="/projects"
-        ><span class="brand-mark">A</span><span>Admin Kit<small>管理中心</small></span></router-link
+        ><span class="brand-mark">A</span><span>Agent Admin<small>管理中心</small></span></router-link
       >
       <div class="workspace-label">工作空间</div>
       <nav aria-label="主导航">
@@ -93,7 +93,7 @@ function close(path: string) {
         </div>
       </div>
       <main class="page-content"><slot /></main>
-      <footer class="main-footer"><span>Admin Kit</span><span>工作空间 / 默认项目</span></footer>
+      <footer class="main-footer"><span>Agent Admin</span><span>工作空间 / 默认项目</span></footer>
     </div>
   </div>
 </template>

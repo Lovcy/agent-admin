@@ -40,7 +40,7 @@ router.beforeEach((to) => {
   if (to.path === '/login' && session.session) return '/projects';
 });
 router.afterEach((to) => {
-  document.title = `${String(to.meta.title ?? '管理中心')} · Admin Kit`;
+  document.title = `${String(to.meta.title ?? '管理中心')} · Agent Admin`;
   if (!to.meta.public && to.matched[0]?.path !== '/:pathMatch(.*)*')
     useUiStore().visit(to.path, String(to.meta.title));
 });

@@ -54,7 +54,7 @@ test('missing schemas, remote references and ambiguous responses fail closed', a
 test('CLI creates a standalone project, preserves existing directories and embeds tool assets', async () => {
   const target = await project('standalone');
   assert.equal((await readJson(join(target, 'package.json'))).name, 'standalone');
-  for (const file of ['package.json', 'admin-kit.config.json']) {
+  for (const file of ['package.json', 'agent-admin.config.json']) {
     const path = join(target, file);
     assert.equal(
       await check(await readFile(path, 'utf8'), { filepath: path, printWidth: 100 }),
@@ -64,7 +64,7 @@ test('CLI creates a standalone project, preserves existing directories and embed
   for (const file of [
     'scripts/tooling/index.mjs',
     'scripts/agent-assets/skills/admin-bugfix/SKILL.md',
-    '.cursor/rules/admin-kit.mdc',
+    '.cursor/rules/agent-admin.mdc',
     '.claude/skills/admin-feature/SKILL.md',
     '.trae/mcp.json',
     '.codex/config.toml',
@@ -83,7 +83,7 @@ test('AI setup preserves user configuration and emits a reviewable suggestion', 
   await writeFile(join(target, '.cursor/mcp.json'), '{"custom":true}');
   const result = await setupAgents(target, join(root, 'agent-assets'));
   assert.equal(await readFile(join(target, '.cursor/mcp.json'), 'utf8'), '{"custom":true}');
-  assert.ok(result.conflicts.some((file) => file.endsWith('mcp.json.admin-kit-new')));
+  assert.ok(result.conflicts.some((file) => file.endsWith('mcp.json.agent-admin-new')));
 });
 test('YApi examples and untyped parameters cannot become an invented contract', () => {
   const detail = {
@@ -116,14 +116,14 @@ test('task retries persist and completion rejects stale verification', async () 
   await updateTask(target, task.id, 'status', 'running');
   for (let count = 0; count < 3; count++)
     await updateTask(target, task.id, 'attempt', 'filter-page');
-  const stored = await readJson(join(target, '.admin-kit/runs', task.id, 'task.json'));
+  const stored = await readJson(join(target, '.agent-admin/runs', task.id, 'task.json'));
   assert.equal(stored.status, 'waiting');
   assert.equal(stored.issues['filter-page'], 3);
   await updateTask(target, task.id, 'resolve', 'filter-page');
   await updateTask(target, task.id, 'status', 'running');
   await updateTask(target, task.id, 'status', 'verifying');
   await updateTask(target, task.id, 'evidence', 'regression passed');
-  await writeJson(join(target, '.admin-kit/runs/latest-verification.json'), {
+  await writeJson(join(target, '.agent-admin/runs/latest-verification.json'), {
     passed: true,
     startedAt: new Date().toISOString(),
     fingerprint: await projectFingerprint(target),
@@ -149,33 +149,33 @@ test('ZenTao adapter only reads, preserves evidence and blocks product mismatch'
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   context.after(() => server.close());
   const target = await project('zentao');
-  const config = await readJson(join(target, 'admin-kit.config.json'));
+  const config = await readJson(join(target, 'agent-admin.config.json'));
   config.zentao = {
     baseUrl: `http://127.0.0.1:${server.address().port}`,
-    tokenEnv: 'ADMIN_KIT_TEST_TOKEN',
+    tokenEnv: 'agent_admin_TEST_TOKEN',
     productIds: [8],
   };
-  process.env.ADMIN_KIT_TEST_TOKEN = 'test-only';
-  context.after(() => delete process.env.ADMIN_KIT_TEST_TOKEN);
-  await writeJson(join(target, 'admin-kit.config.json'), config);
+  process.env.agent_admin_TEST_TOKEN = 'test-only';
+  context.after(() => delete process.env.agent_admin_TEST_TOKEN);
+  await writeJson(join(target, 'agent-admin.config.json'), config);
   const snapshot = await readSource(target, 'zentao', '123');
   assert.match((await readJson(snapshot.file)).content, /Reproduce steps/);
   assert.deepEqual(calls, [{ method: 'GET', path: '/api.php/v1/bugs/123' }]);
   config.zentao.productIds = [99];
-  await writeJson(join(target, 'admin-kit.config.json'), config);
+  await writeJson(join(target, 'agent-admin.config.json'), config);
   await assert.rejects(readSource(target, 'zentao', '123'), /does not match/);
 });
 test('YApi sync failure preserves local provenance without switching modes', async () => {
   const target = await project('yapi-offline');
-  const config = await readJson(join(target, 'admin-kit.config.json'));
+  const config = await readJson(join(target, 'agent-admin.config.json'));
   config.api.mode = 'yapi';
   config.api.yapi = {
     baseUrl: 'http://127.0.0.1:1',
     projects: [{ id: 1, tokenEnv: 'MISSING_TEST_YAPI_TOKEN' }],
   };
-  await writeJson(join(target, 'admin-kit.config.json'), config);
+  await writeJson(join(target, 'agent-admin.config.json'), config);
   await assert.rejects(syncYapi(target), /Missing environment/);
-  assert.equal((await readJson(join(target, 'admin-kit.config.json'))).api.mode, 'yapi');
+  assert.equal((await readJson(join(target, 'agent-admin.config.json'))).api.mode, 'yapi');
   await assert.rejects(generate(target), /ENOENT/);
   assert.ok((await readdir(join(target, 'contracts'))).includes('local.openapi.json'));
 });
@@ -213,21 +213,21 @@ test('YApi sync reads all pages, converts typed path parameters and compares the
   });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   context.after(() => server.close());
-  process.env.ADMIN_KIT_YAPI_TEST_TOKEN = 'test-only';
-  context.after(() => delete process.env.ADMIN_KIT_YAPI_TEST_TOKEN);
-  const config = await readJson(join(target, 'admin-kit.config.json'));
+  process.env.agent_admin_YAPI_TEST_TOKEN = 'test-only';
+  context.after(() => delete process.env.agent_admin_YAPI_TEST_TOKEN);
+  const config = await readJson(join(target, 'agent-admin.config.json'));
   config.api.mode = 'yapi';
   config.api.yapi = {
     baseUrl: `http://127.0.0.1:${server.address().port}`,
-    projects: [{ id: 7, tokenEnv: 'ADMIN_KIT_YAPI_TEST_TOKEN' }],
+    projects: [{ id: 7, tokenEnv: 'agent_admin_YAPI_TEST_TOKEN' }],
   };
-  await writeJson(join(target, 'admin-kit.config.json'), config);
+  await writeJson(join(target, 'agent-admin.config.json'), config);
   await syncYapi(target);
   await generate(target, true);
   const synced = await readJson(join(target, 'contracts/yapi.openapi.json'));
   assert.equal(Object.keys(synced.paths).length, 2);
   assert.ok(synced.paths['/items1/{id}']);
   assert.equal(calls.filter((path) => path.endsWith('/list')).length, 2);
-  const diff = await readJson(join(target, '.admin-kit/incoming/yapi-diff.json'));
+  const diff = await readJson(join(target, '.agent-admin/incoming/yapi-diff.json'));
   assert.equal(diff.previous.info.title, contract.info.title);
 });

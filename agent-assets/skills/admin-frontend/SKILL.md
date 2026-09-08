@@ -1,6 +1,6 @@
 ---
 name: admin-frontend
-description: Build Vue 3 admin pages using TypeScript, Element Plus, Router, Pinia and Vite within Admin Kit's layered architecture and default UI system.
+description: Build Vue 3 admin pages using TypeScript, Element Plus, Router, Pinia and Vite within Agent Admin's layered architecture and default UI system.
 ---
 
 # Frontend implementation

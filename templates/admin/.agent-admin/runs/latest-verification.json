@@ -1,0 +1,46 @@
+{
+  "startedAt": "2026-09-06T16:21:39.560Z",
+  "apiMode": "local",
+  "backend": "not-verified",
+  "devtools": "not-run",
+  "passed": true,
+  "checks": [
+    {
+      "script": "format:check",
+      "status": "passed",
+      "durationMs": 1077
+    },
+    {
+      "script": "api:check",
+      "status": "passed",
+      "durationMs": 1269
+    },
+    {
+      "script": "lint",
+      "status": "passed",
+      "durationMs": 3118
+    },
+    {
+      "script": "typecheck",
+      "status": "passed",
+      "durationMs": 3529
+    },
+    {
+      "script": "test:unit",
+      "status": "passed",
+      "durationMs": 4132
+    },
+    {
+      "script": "build",
+      "status": "passed",
+      "durationMs": 9052
+    },
+    {
+      "script": "test:e2e",
+      "status": "passed",
+      "durationMs": 10334
+    }
+  ],
+  "finishedAt": "2026-09-06T16:22:12.092Z",
+  "fingerprint": "78b91dbc3ec7f53a12d0b8c1dad8886d13cf8ac2f3a1b0c4edf64426cba5d03a"
+}

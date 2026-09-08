@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import config from './admin-kit.config.json';
+import config from './agent-admin.config.json';
 
 export default defineConfig(({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env };

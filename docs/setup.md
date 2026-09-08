@@ -20,13 +20,13 @@ Linux 安装浏览器系统依赖可使用 `pnpm exec playwright install --with-
 
 ## 2. AI 工具
 
-运行 `pnpm ai:setup` 根据 `admin-kit.config.json` 的 agents 列表生成入口。已有自定义内容不会被覆盖，冲突建议写入同目录 `.admin-kit-new` 文件，需检查合并。四种工具共享 `.admin-kit/rules/core.md` 和同源 Skill。
+运行 `pnpm ai:setup` 根据 `agent-admin.config.json` 的 agents 列表生成入口。已有自定义内容不会被覆盖，冲突建议写入同目录 `.agent-admin-new` 文件，需检查合并。四种工具共享 `.agent-admin/rules/core.md` 和同源 Skill。
 
 | 工具        | 规则/Skill 入口                             | MCP 配置                |
 | ----------- | ------------------------------------------- | ----------------------- |
 | Codex       | AGENTS.md、.agents/skills                   | .codex/config.toml      |
 | Claude Code | CLAUDE.md、.claude/skills                   | .mcp.json               |
-| Cursor      | .cursor/rules/admin-kit.mdc、.cursor/skills | .cursor/mcp.json        |
+| Cursor      | .cursor/rules/agent-admin.mdc、.cursor/skills | .cursor/mcp.json        |
 | Trae        | .trae/rules/project_rules.md、.trae/skills  | .trae/mcp.json 导入配置 |
 
 安装并登录选定工具，在工具内打开项目，按客户端要求信任项目、启用规则和 MCP。Trae 不同产品/版本配置入口可能不同；若未自动加载，在 MCP 设置导入模板并确认项目规则生效。不要因为文件存在就认为客户端配置已验证。
@@ -63,7 +63,7 @@ pnpm source:read lark "https://你的租户.feishu.cn/docx/文档token"
 
 ## 5. YApi
 
-编辑 admin-kit.config.json 的 api.mode 为 yapi，并在 api 下加入 yapi.baseUrl 和 projects。每个项目包含数字 id 和 tokenEnv（环境变量名，例如 YAPI_TOKEN_MAIN）。服务地址保留部署子路径，不以 /api 结尾。
+编辑 agent-admin.config.json 的 api.mode 为 yapi，并在 api 下加入 yapi.baseUrl 和 projects。每个项目包含数字 id 和 tokenEnv（环境变量名，例如 YAPI_TOKEN_MAIN）。服务地址保留部署子路径，不以 /api 结尾。
 
 配置示例（地址和 ID 必须替换为你的服务信息）：
 
@@ -91,7 +91,7 @@ pnpm source:read lark "https://你的租户.feishu.cn/docx/文档token"
 
 不接入禅道时省略 zentao。Token 存入本机 `.env.local` 的同名变量，不写入共享 JSON。运行 `pnpm api:sync` 后执行 `pnpm api:check`。接口需要开启 JSON Schema，query/path 参数需要明确类型。服务接口为 `/api/interface/list` 和 `/api/interface/get`；二次开发版本需真实联调验证。
 
-本地切换到 YApi 不保留演示接口作为补充。阅读 `.admin-kit/incoming/yapi-diff.json`，改造各模块 data 适配器及 Mock；字段语义不清晰时停止相关模块。网络错误、未授权、schema 缺陷不会触发本地模式回退。
+本地切换到 YApi 不保留演示接口作为补充。阅读 `.agent-admin/incoming/yapi-diff.json`，改造各模块 data 适配器及 Mock；字段语义不清晰时停止相关模块。网络错误、未授权、schema 缺陷不会触发本地模式回退。
 
 ## 6. 禅道
 

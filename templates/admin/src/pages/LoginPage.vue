@@ -38,7 +38,7 @@ async function submit() {
 </script>
 <template>
   <main class="login-page">
-    <div class="login-brand"><span class="brand-mark">A</span>Admin Kit</div>
+    <div class="login-brand"><span class="brand-mark">A</span>Agent Admin</div>
     <section class="login-form">
       <div class="section-label">WORKSPACE</div>
       <h1>登录管理中心</h1>
@@ -67,6 +67,6 @@ async function submit() {
         ></el-form
       >
     </section>
-    <footer>Admin Kit / 管理中心</footer>
+    <footer>Agent Admin / 管理中心</footer>
   </main>
 </template>

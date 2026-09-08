@@ -19,7 +19,7 @@ export async function projectFingerprint(root) {
   for (const file of [
     'package.json',
     'pnpm-lock.yaml',
-    'admin-kit.config.json',
+    'agent-admin.config.json',
     'tsconfig.json',
     'vite.config.ts',
     'playwright.config.ts',

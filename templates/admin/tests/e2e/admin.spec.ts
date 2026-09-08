@@ -85,7 +85,7 @@ test('mobile layout has working navigation and no page overflow', async ({ page 
 test('expired sessions return to login and unknown pages offer recovery', async ({ page }) => {
   await login(page);
   await page.evaluate(() =>
-    sessionStorage.setItem('admin-kit.session', JSON.stringify({ token: 'expired', name: 'User' })),
+    sessionStorage.setItem('agent-admin.session', JSON.stringify({ token: 'expired', name: 'User' })),
   );
   await page.reload();
   await expect(page).toHaveURL(/\/login/);

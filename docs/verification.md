@@ -14,7 +14,7 @@
 | 截图            | 1440px 桌面、390px 手机、深色主题已检查；无页面异常或整页横向溢出                              |
 | 生产 Mock 隔离  | 产物中未检出演示密码、Mock token 或 MSW 标识；构建不复制 public worker                         |
 
-模板验收报告在 `templates/admin/.admin-kit/runs/latest-verification.json`；独立项目报告在 `.tmp/release-check/.admin-kit/runs/latest-verification.json`；截图在 `artifacts/preview/`。这些是本机产物，不默认纳入 GitHub 包。后续修改后应重新验证，不沿用旧报告。
+模板验收报告在 `templates/admin/.agent-admin/runs/latest-verification.json`；独立项目报告在 `.tmp/release-check/.agent-admin/runs/latest-verification.json`；截图在 `artifacts/preview/`。这些是本机产物，不默认纳入 GitHub 包。后续修改后应重新验证，不沿用旧报告。
 
 ## 尚未验证
 

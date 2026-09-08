@@ -115,11 +115,11 @@ async function verify() {
       detail: 'Project changed during verification',
     });
   }
-  await writeJson(join(root, '.admin-kit/runs/latest-verification.json'), report);
+  await writeJson(join(root, '.agent-admin/runs/latest-verification.json'), report);
   console.log(
     report.passed
       ? `${config.api.mode === 'local' ? 'Mock' : 'Configured environment'} checks passed; real backend and DevTools inspection are not verified.`
-      : 'Verification failed. See .admin-kit/runs/latest-verification.json',
+      : 'Verification failed. See .agent-admin/runs/latest-verification.json',
   );
   if (!report.passed) process.exitCode = 1;
 }

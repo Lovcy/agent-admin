@@ -5,7 +5,7 @@ description: Diagnose and fix admin defects from local or Feishu bug documents o
 
 # Bug repair
 
-1. Read `.admin-kit/rules/core.md`, `admin-kit.config.json` and the relevant module. Import the bug using `pnpm source:read md <path>`, `pnpm source:read lark <url>` or `pnpm source:read zentao <id>`. ZenTao requires configured product mapping. Read metadata including module, affected version and image references.
+1. Read `.agent-admin/rules/core.md`, `agent-admin.config.json` and the relevant module. Import the bug using `pnpm source:read md <path>`, `pnpm source:read lark <url>` or `pnpm source:read zentao <id>`. ZenTao requires configured product mapping. Read metadata including module, affected version and image references.
 2. Check the current project and branch against the bug. Ask if they mismatch; do not switch repository or branch. Use `pnpm task create bug <source-json-path>` and retain its ID for recovery.
 3. Reproduce using the supplied steps. When steps are missing, investigate code, logs, screenshots and browser behavior. Record expected and actual results plus the command, test or manual sequence demonstrating failure. Missing accounts, data or environment are blockers. Do not make speculative changes before obtaining evidence.
 4. For an automatable defect, add a regression assertion derived from that evidence and run it against the unfixed code. Record the failing result. Identify the causal path before making the smallest coherent repair. Follow the contract and layering rules; YApi defects cannot be fixed by changing generated code.

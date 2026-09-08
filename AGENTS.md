@@ -1,4 +1,4 @@
-# Admin Kit scaffolding repository
+# Agent Admin scaffolding repository
 
 This repository builds a project generator. Runtime changes belong in `templates/admin`; CLI behavior in `packages/cli`; contract, source and task commands in `packages/tooling`; shared agent instructions in `agent-assets`. Generated applications receive independent copies of tooling and agent assets.
 

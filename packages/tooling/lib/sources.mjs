@@ -149,7 +149,7 @@ export async function readSource(root, kind, value, { runCommand = run } = {}) {
     resources,
   };
   const id = `${Date.now()}-${digest(snapshot).slice(0, 8)}`;
-  const folder = join(root, '.admin-kit/incoming', id);
+  const folder = join(root, '.agent-admin/incoming', id);
   await mkdir(folder, { recursive: true });
   for (const [index, resource] of resources.entries()) {
     const output = join(folder, `image-${index}`);

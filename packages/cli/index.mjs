@@ -1,15 +1,31 @@
 #!/usr/bin/env node
 import { cp, mkdir, readFile, writeFile, access } from 'node:fs/promises';
-import { resolve, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
+import { resolve, join, dirname } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
 import { input, checkbox, select } from '@inquirer/prompts';
-import { setupAgents } from '../tooling/lib/agents.mjs';
-import { generate } from '../tooling/lib/contracts.mjs';
-import { redact, writeJson } from '../tooling/lib/io.mjs';
 import { format } from 'prettier';
 
-const repository = fileURLToPath(new URL('../../', import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const root = existsSync(join(__dirname, 'templates'))
+  ? __dirname
+  : resolve(__dirname, '..', '..');
+const toolingDir = existsSync(join(__dirname, 'tooling'))
+  ? join(__dirname, 'tooling')
+  : join(__dirname, '..', 'tooling');
+
+const { setupAgents } = await import(
+  pathToFileURL(join(toolingDir, 'lib/agents.mjs')).href
+);
+const { generate } = await import(
+  pathToFileURL(join(toolingDir, 'lib/contracts.mjs')).href
+);
+const { redact, writeJson } = await import(
+  pathToFileURL(join(toolingDir, 'lib/io.mjs')).href
+);
+
 export async function createProject({ name, directory, agents, mode = 'local' }) {
   if (!/^[a-z][a-z0-9-]{0,62}$/.test(name))
     throw new Error(
@@ -33,29 +49,29 @@ export async function createProject({ name, directory, agents, mode = 'local' })
     throw new Error(`Target already exists: ${destination}`);
   await mkdir(resolve(directory), { recursive: true });
   await mkdir(destination);
-  await cp(join(repository, 'templates/admin'), destination, {
+  await cp(join(root, 'templates/admin'), destination, {
     recursive: true,
     filter: (source) =>
-      !/(?:^|[\\/])(node_modules|dist|playwright-report|test-results|coverage|artifacts|\.git|\.admin-kit|\.agents|\.codex|\.claude|\.cursor|\.trae)(?:[\\/]|$)/.test(
+      !/(?:^|[\\/])(node_modules|dist|playwright-report|test-results|coverage|artifacts|\.git|\.agent-admin|\.agents|\.codex|\.claude|\.cursor|\.trae)(?:[\\/]|$)/.test(
         source,
       ) && !/[\\/]\.env(?:\.|$)/.test(source),
   });
-  await cp(join(repository, 'packages/tooling'), join(destination, 'scripts/tooling'), {
+  await cp(toolingDir, join(destination, 'scripts/tooling'), {
     recursive: true,
   });
-  await cp(join(repository, 'docs'), join(destination, 'docs'), { recursive: true });
+  await cp(join(root, 'docs'), join(destination, 'docs'), { recursive: true });
   const manifest = JSON.parse(await readFile(join(destination, 'package.json'), 'utf8'));
   manifest.name = name;
   await writeJson(join(destination, 'package.json'), manifest);
-  const config = JSON.parse(await readFile(join(destination, 'admin-kit.config.json'), 'utf8'));
+  const config = JSON.parse(await readFile(join(destination, 'agent-admin.config.json'), 'utf8'));
   config.agents = agents;
   config.api.mode = mode;
-  await writeJson(join(destination, 'admin-kit.config.json'), config);
-  await cp(join(repository, 'templates/admin/.env.example'), join(destination, '.env.example'));
-  await setupAgents(destination, join(repository, 'agent-assets'));
+  await writeJson(join(destination, 'agent-admin.config.json'), config);
+  await cp(join(root, 'templates/admin/.env.example'), join(destination, '.env.example'));
+  await setupAgents(destination, join(root, 'agent-assets'));
   if (mode === 'local') await generate(destination);
   await writeFile(join(destination, 'pnpm-workspace.yaml'), 'packages: []\n');
-  for (const file of ['package.json', 'admin-kit.config.json']) {
+  for (const file of ['package.json', 'agent-admin.config.json']) {
     const path = join(destination, file);
     await writeFile(
       path,
@@ -78,7 +94,7 @@ async function main() {
   });
   if (values.help || positionals[0] !== 'create') {
     console.log(
-      'admin-kit create <name> [--agents codex,claude,cursor,trae] [--mode local|yapi] [--directory path] [--yes]\nNames use lowercase ASCII. Existing directories are never overwritten.',
+      'agent-admin create <name> [--agents codex,claude,cursor,trae] [--mode local|yapi] [--directory path] [--yes]\nNames use lowercase ASCII. Existing directories are never overwritten.',
     );
     return;
   }

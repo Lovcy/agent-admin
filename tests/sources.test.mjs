@@ -8,7 +8,7 @@ import { readJson, writeJson } from '../packages/tooling/lib/io.mjs';
 test('Feishu reader preserves tables, downloads image tokens and never issues write commands', async () => {
   await mkdir('.tmp', { recursive: true });
   const root = await mkdtemp(join(process.cwd(), '.tmp/lark-'));
-  await writeJson(join(root, 'admin-kit.config.json'), {
+  await writeJson(join(root, 'agent-admin.config.json'), {
     version: 1,
     agents: ['codex'],
     api: { mode: 'local' },
@@ -50,7 +50,7 @@ test('Feishu reader preserves tables, downloads image tokens and never issues wr
 test('Feishu image failure remains visible instead of silently dropping visual requirements', async () => {
   await mkdir('.tmp', { recursive: true });
   const root = await mkdtemp(join(process.cwd(), '.tmp/lark-failure-'));
-  await writeJson(join(root, 'admin-kit.config.json'), {
+  await writeJson(join(root, 'agent-admin.config.json'), {
     version: 1,
     agents: ['codex'],
     api: { mode: 'local' },

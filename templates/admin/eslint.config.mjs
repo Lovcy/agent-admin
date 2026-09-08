@@ -11,7 +11,7 @@ export default tseslint.config(
       'public/**',
       'playwright-report/**',
       'test-results/**',
-      '.admin-kit/**',
+      '.agent-admin/**',
     ],
   },
   js.configs.recommended,

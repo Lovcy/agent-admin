@@ -28,5 +28,5 @@ const configSchema = z.object({
     .optional(),
 });
 export async function loadConfig(root) {
-  return configSchema.parse(await readJson(join(root, 'admin-kit.config.json')));
+  return configSchema.parse(await readJson(join(root, 'agent-admin.config.json')));
 }

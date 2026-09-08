@@ -2,13 +2,13 @@ import { ref, watch } from 'vue';
 import { defineStore } from 'pinia';
 
 export const useUiStore = defineStore('ui', () => {
-  const dark = ref(localStorage.getItem('admin-kit.theme') === 'dark');
+  const dark = ref(localStorage.getItem('agent-admin.theme') === 'dark');
   const tabs = ref<{ path: string; title: string }[]>([{ path: '/projects', title: '项目管理' }]);
   watch(
     dark,
     (value) => {
       document.documentElement.classList.toggle('dark', value);
-      localStorage.setItem('admin-kit.theme', value ? 'dark' : 'light');
+      localStorage.setItem('agent-admin.theme', value ? 'dark' : 'light');
     },
     { immediate: true },
   );

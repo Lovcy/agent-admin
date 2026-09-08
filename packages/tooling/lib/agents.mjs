@@ -6,7 +6,7 @@ async function preserveWrite(path, content, conflicts) {
   await mkdir(dirname(path), { recursive: true });
   const old = await readFile(path, 'utf8').catch(() => null);
   if (old !== null && old !== content) {
-    const suggestion = `${path}.admin-kit-new`;
+    const suggestion = `${path}.agent-admin-new`;
     await writeFile(suggestion, content);
     conflicts.push(suggestion);
   } else await writeFile(path, content);
@@ -14,19 +14,19 @@ async function preserveWrite(path, content, conflicts) {
 export async function setupAgents(root, assets) {
   const { agents } = await loadConfig(root);
   const conflicts = [];
-  await mkdir(join(root, '.admin-kit'), { recursive: true });
-  await cp(join(assets, 'rules'), join(root, '.admin-kit/rules'), {
+  await mkdir(join(root, '.agent-admin'), { recursive: true });
+  await cp(join(assets, 'rules'), join(root, '.agent-admin/rules'), {
     recursive: true,
     force: false,
     errorOnExist: false,
   });
-  await cp(join(assets, 'skills'), join(root, '.admin-kit/skills'), {
+  await cp(join(assets, 'skills'), join(root, '.agent-admin/skills'), {
     recursive: true,
     force: false,
     errorOnExist: false,
   });
   const pointer =
-    '# Admin Kit project\n\nRead `.admin-kit/rules/core.md` before modifying this project.\nFor feature requests read `.admin-kit/skills/admin-feature/SKILL.md`.\nFor bug documents or ZenTao IDs read `.admin-kit/skills/admin-bugfix/SKILL.md`.\nFor UI, Vue, Vite, Pinia, Router or Element Plus work read `.admin-kit/skills/admin-frontend/SKILL.md`.\n';
+    '# Agent Admin project\n\nRead `.agent-admin/rules/core.md` before modifying this project.\nFor feature requests read `.agent-admin/skills/admin-feature/SKILL.md`.\nFor bug documents or ZenTao IDs read `.agent-admin/skills/admin-bugfix/SKILL.md`.\nFor UI, Vue, Vite, Pinia, Router or Element Plus work read `.agent-admin/skills/admin-frontend/SKILL.md`.\n';
   const mcp = {
     mcpServers: {
       'chrome-devtools': {
@@ -58,10 +58,10 @@ export async function setupAgents(root, assets) {
       await mkdir(join(root, folder, 'rules'), { recursive: true });
       const rule =
         agent === 'cursor'
-          ? `---\ndescription: Admin Kit project workflow\nalwaysApply: true\n---\n${pointer}`
+          ? `---\ndescription: Agent Admin project workflow\nalwaysApply: true\n---\n${pointer}`
           : pointer;
       await preserveWrite(
-        join(root, folder, 'rules', agent === 'cursor' ? 'admin-kit.mdc' : 'project_rules.md'),
+        join(root, folder, 'rules', agent === 'cursor' ? 'agent-admin.mdc' : 'project_rules.md'),
         rule,
         conflicts,
       );

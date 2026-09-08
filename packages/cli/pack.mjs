@@ -4,9 +4,9 @@ await mkdir('artifacts', { recursive: true });
 await create(
   {
     gzip: true,
-    file: 'artifacts/admin-kit-0.1.0.tar.gz',
+    file: 'artifacts/agent-admin-0.1.0.tar.gz',
     filter: (path) =>
-      !/(^|\/)(node_modules|dist|test-results|playwright-report|\.admin-kit)(\/|$)/.test(path) &&
+      !/(^|\/)(node_modules|dist|test-results|playwright-report|\.agent-admin)(\/|$)/.test(path) &&
       (!/(^|\/)\.env(\.|$)/.test(path) || path.endsWith('/.env.example')),
   },
   [
@@ -25,4 +25,4 @@ await create(
     '.gitignore',
   ],
 );
-console.log('artifacts/admin-kit-0.1.0.tar.gz');
+console.log('artifacts/agent-admin-0.1.0.tar.gz');

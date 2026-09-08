@@ -33,18 +33,18 @@ export async function createTask(root, kind, sourcePath) {
     evidence: [],
     blockers: [],
   };
-  await writeJson(join(root, '.admin-kit/runs', id, 'task.json'), task);
+  await writeJson(join(root, '.agent-admin/runs', id, 'task.json'), task);
   return task;
 }
 export async function updateTask(root, id, action, value) {
   if (!/^[0-9a-f-]{36}$/.test(id)) throw new Error('Invalid task ID');
-  const file = join(root, '.admin-kit/runs', id, 'task.json');
+  const file = join(root, '.agent-admin/runs', id, 'task.json');
   const task = await readJson(file);
   if (action === 'status') {
     if (!statuses.includes(value) || !transitions[task.status]?.includes(value))
       throw new Error(`Invalid task transition: ${task.status} -> ${value}`);
     if (value === 'complete') {
-      const report = await readJson(join(root, '.admin-kit/runs/latest-verification.json'));
+      const report = await readJson(join(root, '.agent-admin/runs/latest-verification.json'));
       if (!report.passed || report.startedAt < task.createdAt || task.blockers.length)
         throw new Error(
           'Completion requires passing verification after task creation and no blockers',
