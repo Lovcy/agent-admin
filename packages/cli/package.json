@@ -1,5 +1,6 @@
 {
-  "name": "create-agent-admin",
+
+  "name": "@lovcy/create-agent-admin",
   "version": "0.1.0",
   "description": "Vue 3 + TypeScript + Element Plus admin project scaffolding",
   "type": "module",
