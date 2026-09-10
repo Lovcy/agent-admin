@@ -11,7 +11,7 @@ Vue 3 + TypeScript + Element Plus 后台项目脚手架。支持 Codex、Claude 
 - **需求工作流** — 读取飞书文档、禅道 Bug 或本地 Markdown 创建开发任务
 - **完整验证** — 单元测试 + E2E 测试 + 分层检查 + 契约校验 + 生产构建一体化验收
 - **Mock 开发** — MSW 拦截 HTTP 请求，无需真实后端即可开发调试
-- **npm create 支持** — 发布到 npm 后支持 `npm create agent-admin` 一键创建
+- **npm create 支持** — 发布到 npm 后支持 `npm create @lovcy/agent-admin` 一键创建
 
 ## 技术栈
 
@@ -86,10 +86,16 @@ pnpm dev
 ### 方式三：通过 npm create（发布后可用）
 
 ```sh
-npm create agent-admin@latest my-admin
+npm create @lovcy/agent-admin@latest my-admin
 
 # 非交互式
-npm create agent-admin@latest my-admin -- --yes --agents trae
+npm create @lovcy/agent-admin@latest my-admin -- --yes --agents trae
+```
+
+等价写法：
+
+```sh
+npx @lovcy/create-agent-admin@latest my-admin
 ```
 
 ## 项目结构
@@ -101,7 +107,7 @@ agent-demo/
 │   │   ├── index.mjs         # create 命令入口
 │   │   ├── pack.mjs          # release:pack 打包脚本
 │   │   ├── prepack.mjs        # npm 发布前资源复制
-│   │   └── package.json      # create-agent-admin npm 包清单
+│   │   └── package.json      # @lovcy/create-agent-admin npm 包清单
 │   └── tooling/              # 工具命令库（复制到生成项目的 scripts/）
 │       ├── index.mjs         # 命令入口
 │       └── lib/
@@ -266,8 +272,18 @@ pnpm task status <id> complete                # 完成任务
 | `pnpm task` | 管理任务状态 |
 | `pnpm verify` | 运行完整验收流程 |
 
+## 发布
 
-发布后用户可通过 `npm create agent-admin@latest` 创建项目。
+### 发布到 npm
+
+```sh
+cd packages/cli
+npm whoami              # 确认登录
+npm pack --dry-run      # 预览包含的文件
+npm publish             # 发布到 npm
+```
+
+发布后用户可通过 `npm create @lovcy/agent-admin@latest` 创建项目。
 
 ### 生成 Release 包
 
